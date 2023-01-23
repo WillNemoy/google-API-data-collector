@@ -1,5 +1,5 @@
-# Yelp-API-Data-Collector
-With the inputs of a business type and location, return data on 100 nearby businesses in an Excel workbook.
+# Google-API-Data-Collector
+Collect review data from Google Places API.
 
 
 ## Setup
@@ -7,9 +7,9 @@ With the inputs of a business type and location, return data on 100 nearby busin
 Create and activate a virtual environment:
 
 ```sh
-conda create -n yelpAPI-env python=3.8
+conda create -n googleAPI-env python=3.8
 
-conda activate yelpAPI-env
+conda activate googleAPI-env
 ```
 
 Install package dependencies:
@@ -21,14 +21,14 @@ pip install -r requirements.txt
 ## Configuration
 
 
-[Obtain an API Key](https://www.yelp.com/developers/documentation/v3/authentication) from Yelp.
+[Obtain an API Key](https://console.cloud.google.com/welcome?project=tweet-research-shared) from Google.
 
 Then create a local ".env" file and provide the key like this:
 
 ```sh
 # this is the ".env" file...
 
-YELP_API_KEY="_________"
+GOOGLE_API_KEY="_________"
 
 ```
 
