@@ -41,7 +41,7 @@ def googleAPI_reviews(GOOGLE_API_KEY_parameter, place_id_parameter):
 
 #run the function
 
-"""
+
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 my_place_id = "ChIJRfH9lXW7woARDUjiE-YILn8"
@@ -49,8 +49,9 @@ my_place_id = "ChIJRfH9lXW7woARDUjiE-YILn8"
 my_reviews_data = googleAPI_reviews(GOOGLE_API_KEY, my_place_id)
 
 pprint(my_reviews_data)
-"""
 
+
+"""
 user_search_term = input("What type of businesses are you interested in? ")
 user_location = input("What area should we focus on? ")
 
@@ -59,3 +60,4 @@ user_input = user_search_term + " " + user_location
 my_data = googleAPI_places(GOOGLE_API_KEY, user_input)
 
 pprint(my_data)
+"""
