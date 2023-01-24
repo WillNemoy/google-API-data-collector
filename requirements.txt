@@ -3,4 +3,4 @@ python-dotenv
 yelpapi
 pandas
 numpy
-googlemaps
+spacy

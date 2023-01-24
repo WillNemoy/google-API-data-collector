@@ -10,6 +10,10 @@ import numpy as np
 from spacy.lang.en import English
 from spacy.lang.en.stop_words import STOP_WORDS
 
+#steps:
+#1) Fix the unicode error
+#2) Bring in the Yelp API code. Bring this API up to speed.
+#3) Paginate through all pages
 
 def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
 
@@ -17,7 +21,9 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
     # places according to your search 
     # query using Google Places API
     
-    # https://developers.google.com/maps/documentation/places/web-service/search-text    
+    # https://developers.google.com/maps/documentation/places/web-service/search-text  
+    # https://developers.google.com/maps/documentation/places/web-service/place-data-fields#places-api-fields-support
+  
     response = requests.get("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" 
                             + search_term 
                             + '&key=' 
@@ -25,24 +31,28 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
                             + '&key=')
     
     data = response.json()
+
+    place_data = data["results"]
     all_reviews = []
 
-    for place in places_data:
-        place_review_data = 
+    
+    for place in place_data:
         response = requests.get("https://maps.googleapis.com/maps/api/place/details/json?placeid=" 
-                            + place_id_parameter 
+                            + place["place_id"] 
                             + '&key=' 
                             + GOOGLE_API_KEY_parameter)
         all_reviews.append(response.json())
+    
 
-    return data
+    return all_reviews
 
-# https://developers.google.com/maps/documentation/places/web-service/place-data-fields#places-api-fields-support
 
         
 
 #run the function
 load_dotenv() #look in the ".env" file for env vars
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
 user_search_term = input("What type of businesses are you interested in? ")
