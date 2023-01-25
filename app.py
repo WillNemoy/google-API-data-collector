@@ -43,7 +43,7 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
                             + GOOGLE_API_KEY_parameter)
         all_reviews.append(response.json())
     
-
+    print(response.encoding)
     return all_reviews
 
 
