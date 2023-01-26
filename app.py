@@ -23,7 +23,7 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
     
     # https://developers.google.com/maps/documentation/places/web-service/search-text  
     # https://developers.google.com/maps/documentation/places/web-service/place-data-fields#places-api-fields-support
-  
+    """
     response = requests.get("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" 
                             + search_term 
                             + '&key=' 
@@ -35,7 +35,7 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
     place_data = data["results"]
     all_reviews = []
 
-    """
+    
     for place in place_data:
         response = requests.get("https://maps.googleapis.com/maps/api/place/details/json?placeid=" 
                             + place["place_id"] 
@@ -43,27 +43,7 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
                             + GOOGLE_API_KEY_parameter)
         all_reviews.append(response.json())
     """
-    print(response.encoding)
-    return(data)
-    ##return all_reviews
-
-
-        
-
-#run the function
-load_dotenv() #look in the ".env" file for env vars
-
-##GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-
-
-##user_search_term = input("What type of businesses are you interested in? ")
-##user_location = input("What area should we focus on? ")
-
-##user_input = user_search_term + " " + user_location
-
-##my_data = googleAPI(GOOGLE_API_KEY, user_input)
-
-my_json = [{'html_attributions': [],
+    all_reviews = [{'html_attributions': [],
   'result': {'address_components': [{'long_name': '2910',
      'short_name': '2910',
      'types': ['street_number']},
@@ -2974,10 +2954,108 @@ my_json = [{'html_attributions': [],
    'wheelchair_accessible_entrance': True},
   'status': 'OK'}]
 
+    reviews_rating = []
+    reviews_text = []
+
+    for company in all_reviews:
+        try:
+            for review in company["result"]["reviews"]:
+                reviews_rating.append(review["rating"])
+                reviews_text.append(review["text"])
+
+        except:
+            continue
+
+    def clean_text(x):
+    
+        new_text = ""
+
+        for character in x:
+            if (character.isalnum() == True 
+                or character == " "
+                or character == "'"
+                or character == "#"
+                or character == "-"
+                or character == "("
+                or character == ")"
+                or character == "&"
+                or character == "%"
+                or character == "$"
+                or character == "@"
+                or character == "*"
+                or character == ":"
+                or character == ";"
+                or character == "."
+                or character == "?"
+                or character == "/"
+                or character == "["
+                or character == "]"
+                or character == "{"
+                or character == "}"
+                or character == "="
+                or character == "!"
+                or character == "<"
+                or character == ">"
+                or character == ","
+                or character == ""
+                or character == "_"
+                or character == "+"):
+
+                new_text += character
+
+        return new_text
+
+    reviews_text_clean = []
+
+    for text in reviews_text:
+      reviews_text_clean.append(clean_text(text))
+
+    df = pd.DataFrame({"Rating": reviews_rating, "Text": reviews_text_clean})
+
+    return df
+
+
+        
+
+#run the function
+load_dotenv() #look in the ".env" file for env vars
+
+GOOGLE_API_KEY = "123456" #os.getenv("GOOGLE_API_KEY")
+
+  
+user_search_term = input("What type of businesses are you interested in? ")
+user_location = input("What area should we focus on? ")
+
+user_input = user_search_term + " " + user_location
+
+my_df = googleAPI(GOOGLE_API_KEY, user_input)
+
+print(my_df)
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 #Sheet 4 - Reviews Words
     
 #turn a review's text into a list and remove grammer and non-letter/non-numbers
@@ -3055,4 +3133,5 @@ for i in range(len(google_reviews_list)):
 
 df_review_words = pd.DataFrame(data_list_for_df_reviews, columns=["Rating", "Review Words"])
 
-df_review_words.to_csv("Google Santa Monica Pet.csv")
+print(df_review_words)
+"""
