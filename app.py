@@ -7,11 +7,11 @@ import requests
 import pandas as pd
 import numpy as np
 
-##from spacy.lang.en import English
-##from spacy.lang.en.stop_words import STOP_WORDS
+from spacy.lang.en import English
+from spacy.lang.en.stop_words import STOP_WORDS
 
 #steps:
-#1) Fix the unicode error
+#1) Fix the unicode error - DONE
 #2) Bring in the Yelp API code. Bring this API up to speed.
 #3) Paginate through all pages
 
@@ -3002,7 +3002,16 @@ def prepareReviewText(reviewListNumber):
 
     reviewTextList = newReviewTextString.split()
 
-    return reviewTextList
+    reviewTextKeywords = []
+
+    nlp = English() # Load English tokenizer, tagger, parser, NER and word vectors
+
+    for word in reviewTextList:
+        lexeme = nlp.vocab[word]
+        if lexeme.is_stop == False:
+            reviewTextKeywords.append(word) 
+
+    return reviewTextKeywords
 
 #create a class and list of the Yelp data
 class googleReview:
@@ -3046,4 +3055,4 @@ for i in range(len(google_reviews_list)):
 
 df_review_words = pd.DataFrame(data_list_for_df_reviews, columns=["Rating", "Review Words"])
 
-print(df_review_words)
+df_review_words.to_csv("Google Santa Monica Pet.csv")
