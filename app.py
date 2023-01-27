@@ -2962,6 +2962,7 @@ def googleAPI(GOOGLE_API_KEY_parameter, search_term): #, location_parameter):
             for review in company["result"]["reviews"]:
                 reviews_rating.append(review["rating"])
                 reviews_text.append(review["text"])
+                reviews_text.append(review["text"])
 
         except:
             continue
